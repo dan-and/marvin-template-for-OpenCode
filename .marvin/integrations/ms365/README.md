@@ -29,6 +29,11 @@ Anyone using Microsoft 365 for work or personal productivity who wants Claude to
 ./.marvin/integrations/ms365/setup.sh
 ```
 
+The setup script will prompt for:
+- **Scope** — user-scoped (all projects) or project-scoped
+- **Account type** — work/school or personal only
+- **Tool preset** — all tools or essentials (mail, calendar, files)
+
 ## Authentication
 
 Uses Microsoft's device flow authentication:
@@ -95,12 +100,30 @@ Scopes that typically require admin consent:
 If you prefer to set up manually:
 
 ```bash
+# Work/school account, all tools
 claude mcp add ms365 -s user -- npx -y @softeria/ms-365-mcp-server --org-mode
+
+# Work/school account, essentials only (may avoid admin consent)
+claude mcp add ms365 -s user -- npx -y @softeria/ms-365-mcp-server --org-mode --preset mail,calendar,files
+
+# Personal account only
+claude mcp add ms365 -s user -- npx -y @softeria/ms-365-mcp-server
 ```
+
+Available flags (run `--help` for full list):
+- `--org-mode` — enable work/school accounts
+- `--preset <tools>` — limit to specific tools (mail, calendar, files, teams, etc.)
+- `--read-only` — disable write operations
 
 ## More Info
 
-- MCP Package: [@softeria/ms-365-mcp-server](https://www.npmjs.com/package/@softeria/ms-365-mcp-server)
+- **GitHub:** [softeria-eu/ms-365-mcp-server](https://github.com/softeria-eu/ms-365-mcp-server) — check here for latest flags and options
+- **npm:** [@softeria/ms-365-mcp-server](https://www.npmjs.com/package/@softeria/ms-365-mcp-server)
+
+To see all available options:
+```bash
+npx -y @softeria/ms-365-mcp-server --help
+```
 
 ---
 
