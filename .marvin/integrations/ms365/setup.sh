@@ -38,13 +38,29 @@ else
     exit 1
 fi
 
+# Scope selection
+echo ""
+echo "Where should this integration be available?"
+echo "  1) All projects (user-scoped)"
+echo "  2) This project only (project-scoped)"
+echo ""
+echo -e "${YELLOW}Choice [1]:${NC}"
+read -r SCOPE_CHOICE
+SCOPE_CHOICE=${SCOPE_CHOICE:-1}
+
+if [[ "$SCOPE_CHOICE" == "1" ]]; then
+    SCOPE_FLAG="-s user"
+else
+    SCOPE_FLAG=""
+fi
+
 # Remove existing MCP if present
 echo ""
 echo -e "${BLUE}Configuring Microsoft 365 MCP...${NC}"
 claude mcp remove ms365 2>/dev/null || true
 
 # Add MCP with org-mode (supports work/school accounts)
-claude mcp add ms365 -s user \
+claude mcp add ms365 $SCOPE_FLAG \
     -- npx -y @softeria/ms-365-mcp-server --org-mode
 
 echo ""

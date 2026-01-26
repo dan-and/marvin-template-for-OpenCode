@@ -2,13 +2,7 @@
 
 Connect Claude Code to Microsoft 365 (Outlook, Calendar, OneDrive, Teams, SharePoint, etc.)
 
-## Setup
-
-```bash
-./.marvin/integrations/ms365/setup.sh
-```
-
-## What You Get
+## What It Does
 
 - **Outlook** - Read, send, and manage emails
 - **Calendar** - View and create events
@@ -18,6 +12,22 @@ Connect Claude Code to Microsoft 365 (Outlook, Calendar, OneDrive, Teams, ShareP
 - **To Do** - Manage tasks
 - **OneNote** - Access notebooks
 - **Planner** - View and manage plans
+
+## Who It's For
+
+Anyone using Microsoft 365 for work or personal productivity who wants Claude to help manage emails, calendar, and files.
+
+## Prerequisites
+
+- A Microsoft account (personal or work/school)
+- Node.js installed (`npx` available)
+- For work/school accounts: Your organization may require admin consent (see Troubleshooting)
+
+## Setup
+
+```bash
+./.marvin/integrations/ms365/setup.sh
+```
 
 ## Authentication
 
@@ -35,13 +45,27 @@ The `--org-mode` flag enables both:
 - Work/School accounts (Microsoft 365 Business)
 - Personal Microsoft accounts (outlook.com, hotmail.com)
 
-## Manual Setup
+## Try It
 
-If you prefer to set up manually:
+After setup, try these in Claude:
 
-```bash
-claude mcp add ms365 -s user -- npx -y @softeria/ms-365-mcp-server --org-mode
-```
+- "What's on my Outlook calendar today?"
+- "Show my recent emails"
+- "What files are in my OneDrive?"
+
+## Danger Zone
+
+This integration can perform actions that affect others or can't be easily undone:
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Send emails | High | Recipients see immediately |
+| Delete emails | High | May be unrecoverable |
+| Create/modify calendar events | Medium | Other attendees notified |
+| Delete files | High | Data loss may be permanent |
+| Read emails/files | Low | No external impact |
+
+MARVIN will always confirm before performing high-risk actions.
 
 ## Troubleshooting
 
@@ -66,6 +90,18 @@ Scopes that typically require admin consent:
 - `User.Read.All`, `Sites.Read.All`, `Files.Read.All`
 - All Teams/Chat scopes (`Team.ReadBasic.All`, `Channel.ReadBasic.All`, etc.)
 
+## Manual Setup
+
+If you prefer to set up manually:
+
+```bash
+claude mcp add ms365 -s user -- npx -y @softeria/ms-365-mcp-server --org-mode
+```
+
 ## More Info
 
 - MCP Package: [@softeria/ms-365-mcp-server](https://www.npmjs.com/package/@softeria/ms-365-mcp-server)
+
+---
+
+*Contributed by Deepak Ramachandran*
