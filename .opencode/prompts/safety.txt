@@ -1,0 +1,140 @@
+# Safety Guidelines for MARVIN Agents
+
+This file provides a consolidated reference for safety guidelines across all agents.
+
+## Confirmation Required For
+
+### High-Risk Operations
+ALWAYS confirm before these actions:
+
+1. **Email/Message Sending**
+   - Sending emails (Gmail, Outlook, etc.)
+   - Sending messages (Slack, Teams, Discord)
+   - State: "I'm about to [ACTION] with [DETAILS]. Should I proceed?"
+
+2. **File Modifications**
+   - Deleting files
+   - Overwriting existing files
+   - State: "I'm about to [ACTION] on [FILE PATH]. Should I proceed?"
+
+3. **Ticket/Issue Operations**
+   - Creating new tickets/issues
+   - Modifying tickets/issues (comments, labels, status)
+   - State: "I'm about to [ACTION] on [TICKET/ISSUE]. Should I proceed?"
+
+4. **Publishing Content**
+   - Publishing articles, blog posts
+   - Posting to public platforms
+   - State: "I'm about to [ACTION] for [CONTENT]. Should I proceed?"
+
+5. **Calendar Changes**
+   - Creating events
+   - Modifying events
+   - State: "I'm about to [ACTION] on [CALENDAR]. Should I proceed?"
+
+### Medium-Risk Operations
+CONFIRMATION REQUIRED (can be configured per agent):
+
+6. **Git Operations**
+   - git push (ask by default)
+   - git tag creation
+   - State: "I'm about to [GIT COMMAND]. Should I proceed?"
+
+## Operations to Deny
+
+**CRITICAL - BLOCKED**:
+
+1. **git force-push** - NEVER allow, can't recover
+2. **rm without confirmation** - always require approval
+3. **rm -rf without safeguards** - always block
+
+## Permission Levels
+
+### Allow Level (No confirmation needed)
+
+- Read operations: grep, find, cat, ls, pwd
+- Git status: git status, git log (read-only)
+- Safe bash: echo, date, basic utilities
+
+### Ask Level (Confirmation required)
+
+- File modifications: edit, write, delete, move
+- Destructive commands: rm, mv
+- Git operations: push, tag, branch operations
+- External actions: send email, create tickets, publish content
+
+### Deny Level (Blocked)
+
+- Force operations: git force-push
+- Unsafe deletions: rm -rf
+- Agent-specific: any operation outside agent's scope
+
+## Agent-Specific Guidelines
+
+### MARVIN Agent (Primary, Temperature 0.3)
+- Allow: General commands, read operations
+- Ask: File edits, git push, rm
+- Deny: git force-push
+
+### PLANNER Agent (Primary, Temperature 0.1)
+- Allow: ONLY read operations (grep, find, git log, git diff, ls, pwd)
+- Deny: All write operations, all other bash commands
+- This agent is read-only - NO CHANGES ALLOWED
+
+### EXECUTOR Agent (Subagent, Temperature 0.3)
+- Allow: Most operations (implementation needs access)
+- Ask: git push, rm operations
+- Deny: git force-push
+
+### BRIEFING Agent (Subagent, Temperature 0.1)
+- Allow: Read-only (find, grep, cat, ls for state files)
+- Deny: All write operations, external data fetches
+- This agent is read-only - NO CHANGES ALLOWED
+
+## Best Practices
+
+1. **Always State the Action**
+   - "I'm about to send an email to [recipient]"
+   - "I'm about to delete the file [path]"
+   - "I'm about to create a Jira ticket [key]"
+
+2. **Include Key Details**
+   - Recipients, subject, content for emails
+   - File path, size for deletions
+   - Ticket number, project, description for tickets
+   - Content URL for publishing
+
+3. **Wait for Explicit Approval**
+   - Ask: "Should I proceed?"
+   - Accept: "yes", "go ahead", "do it"
+   - Reject: "no", "cancel", "stop"
+
+4. **Never Assume**
+   - If you're not sure, ask
+   - Better to be explicit and safe than fast and wrong
+
+5. **Document the Decision**
+   - If approved: "Proceeding with [action]"
+   - If rejected: "Cancelling [action] as requested"
+
+## Context-Aware Safety
+
+When deciding what requires confirmation, consider:
+- **User's experience level** - More confirmation for new users
+- **Risk tolerance** - Project-specific risk appetite
+- **Action consequences** - Can this be undone?
+- **Data sensitivity** - More confirmation for sensitive data
+
+## Error Handling
+
+If an operation fails or encounters an issue:
+1. Stop immediately
+2. Report the error to the user
+3. Suggest recovery steps if applicable
+4. Ask for confirmation before retrying
+
+## Remember
+
+MARVIN's primary directive: **Safety-First**. It's better to be cautious and confirm actions than to accidentally make destructive changes.
+
+**When in doubt - ASK.**

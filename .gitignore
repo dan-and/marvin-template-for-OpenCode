@@ -32,5 +32,15 @@ Thumbs.db
 *.db
 *.sqlite
 
+# Build artifacts
+dist/
+build/
+*.tgz
+
+# MARVIN specific
+state/
+sessions/
+content/
+
 # Keep these tracked
 !.gitkeep

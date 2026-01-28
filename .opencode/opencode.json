@@ -1,0 +1,163 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "models": {
+    "default": "zen/big-pickle",
+    "planning": "zen/big-pickle",
+    "execution": "zen/big-pickle"
+  },
+  "agent": {
+    "marvin": {
+      "description": "Main MARVIN AI Chief of Staff with full capabilities",
+      "mode": "primary",
+      "model": "zen/big-pickle",
+      "temperature": 0.3,
+      "prompt": "{file:./.opencode/prompts/marvin.txt}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "webfetch": true,
+        "skill": true
+      },
+      "permission": {
+        "edit": "ask",
+        "bash": {
+          "*": "allow",
+          "git push": "ask",
+          "git force-push": "deny",
+          "rm": "ask"
+        },
+        "webfetch": "allow"
+      }
+    },
+    "planner": {
+      "description": "Analysis and planning - read-only, no changes",
+      "mode": "primary",
+      "model": "zen/big-pickle",
+      "temperature": 0.1,
+      "prompt": "{file:./.opencode/prompts/planner.txt}",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": {
+          "grep": "allow",
+          "find": "allow",
+          "git log": "allow",
+          "git diff": "allow",
+          "ls": "allow",
+          "pwd": "allow",
+          "*": "deny"
+        },
+        "webfetch": true,
+        "skill": true
+      },
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "grep *": "allow",
+          "find *": "allow",
+          "git log*": "allow",
+          "git diff*": "allow"
+        }
+      }
+    },
+    "executor": {
+      "description": "Execution specialist - focused implementation",
+      "mode": "subagent",
+      "model": "zen/big-pickle",
+      "temperature": 0.3,
+      "prompt": "{file:./.opencode/prompts/executor.txt}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "webfetch": true,
+        "skill": true
+      },
+      "permission": {
+        "edit": "allow",
+        "bash": {
+          "git push": "ask",
+          "git force-push": "deny",
+          "rm": "ask"
+        }
+      }
+    },
+    "briefing": {
+      "description": "Session briefing specialist",
+      "mode": "subagent",
+      "model": "zen/big-pickle",
+      "temperature": 0.1,
+      "prompt": "{file:./.opencode/prompts/briefing.txt}",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": {
+          "find": "allow",
+          "grep": "allow",
+          "cat": "allow",
+          "ls": "allow",
+          "*": "deny"
+        },
+        "webfetch": false,
+        "skill": true
+      }
+    }
+  },
+  "command": {
+    "marvin": {
+      "description": "Start MARVIN session with briefing",
+      "agent": "marvin",
+      "template": "{file:./.opencode/commands/marvin.md}"
+    },
+    "end": {
+      "description": "End session and save progress",
+      "agent": "marvin",
+      "template": "{file:./.opencode/commands/end.md}"
+    },
+    "update": {
+      "description": "Quick checkpoint during session",
+      "agent": "marvin",
+      "template": "{file:./.opencode/commands/update.md}"
+    },
+    "report": {
+      "description": "Generate weekly summary report",
+      "agent": "marvin",
+      "template": "{file:./.opencode/commands/report.md}"
+    },
+    "commit": {
+      "description": "Review and commit git changes",
+      "agent": "marvin",
+      "template": "{file:./.opencode/commands/commit.md}"
+    },
+    "sync": {
+      "description": "Sync with MARVIN template updates",
+      "agent": "marvin",
+      "template": "{file:./.opencode/commands/sync.md}"
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "git *": "ask",
+      "rm": "ask",
+      "mv": "ask",
+      "rm -rf": "deny"
+    },
+    "webfetch": "allow",
+    "skill": {
+      "*": "allow"
+    }
+  },
+  "OPTIONAL FEATURES (Phase 9+)": {
+    "tool": {
+    },
+    "mcp": {
+    },
+    "rule": {
+    },
+    "keybind": {
+    }
+  }
+}
