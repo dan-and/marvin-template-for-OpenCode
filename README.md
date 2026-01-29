@@ -12,7 +12,7 @@ Click the green "Code" button above, then "Download ZIP". Unzip it somewhere on 
 
 Or if you use git:
 ```
-git clone https://github.com/SterlingChin/marvin-template.git marvin-template
+git clone https://github.com/dan-and/marvin-template-for-OpenCode.git marvin-template
 ```
 
 ### 2. Open in Claude Code
@@ -135,7 +135,7 @@ If you were using MARVIN before the workspace separation update, run the migrati
 ### 1. Get the Latest Template
 
 ```
-git clone https://github.com/SterlingChin/marvin-template.git marvin-template
+git clone https://github.com/dan-and/marvin-template-for-OpenCode.git marvin-template
 ```
 
 Or if you already have it cloned, run `git pull` to get the latest.
@@ -220,4 +220,6 @@ Or type `/help` for a quick reference.
 
 MARVIN is named after the Paranoid Android from The Hitchhiker's Guide to the Galaxy.
 
-Created by [Sterling Chin](https://sterlingchin.com). Because everyone deserves a chief of staff.
+This OpenCode edition is based on the original MARVIN template for Claude Code created by [Sterling Chin](https://sterlingchin.com). The original template is available at [https://github.com/SterlingChin/marvin-template](https://github.com/SterlingChin/marvin-template).
+
+Because everyone deserves a chief of staff.

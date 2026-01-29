@@ -15,9 +15,11 @@ In 10 Minuten einsatzbereit mit MARVIN.
 ## Schritt 1: Template klonen (2 Minuten)
 
 ```bash
-git clone https://github.com/anomalyco/marvin-template.git ~/marvin
+git clone https://github.com/dan-and/marvin-template-for-OpenCode.git ~/marvin
 cd ~/marvin
 ```
+
+**Hinweis**: Diese OpenCode-Version basiert auf der ursprünglichen [MARVIN-Vorlage für Claude Code](https://github.com/SterlingChin/marvin-template) von Sterling Chin.
 
 ---
 
@@ -390,6 +392,8 @@ Siehe ARCHITECTURE.md für Erweiterungspunkte und Anpassungen.
 
 - **OpenCode Dokumentation**: https://opencode.ai/docs
 - **GitHub Issues**: https://github.com/anomalyco/opencode
-- **Dieses Template**: [Repository-URL]
+- **Dieses Template**: https://github.com/dan-and/marvin-template-for-OpenCode
+
+**Ursprüngliche Vorlage**: Dieses Projekt basiert auf der ursprünglichen [MARVIN-Vorlage für Claude Code](https://github.com/SterlingChin/marvin-template) von Sterling Chin.
 
 Viel Spaß mit MARVIN! 🚀

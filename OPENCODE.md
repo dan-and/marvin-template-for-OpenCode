@@ -455,8 +455,8 @@ marvin-template/
 
 2. **Clone MARVIN Template**
    ```bash
-   git clone https://github.com/anomalyco/marvin-template
-   cd marvin-template
+   git clone https://github.com/dan-and/marvin-template-for-OpenCode
+   cd marvin-template-for-OpenCode
    ```
 
 3. **Configure API Key**
@@ -503,7 +503,9 @@ See **AGENTS.md** for customization guide and **ARCHITECTURE.md** for extension 
 ## Support
 
 For issues, questions, or feature requests:
-- Open an issue on GitHub: https://github.com/anomalyco/marvin-template/issues
+- Open an issue on GitHub: https://github.com/dan-and/marvin-template-for-OpenCode/issues
+
+**Original Template**: This project is based on the original [MARVIN template for Claude Code](https://github.com/SterlingChin/marvin-template) by Sterling Chin.
 - Join the OpenCode Discord: https://opencode.ai/discord
 - Join the MARVIN discussions (if available)
 

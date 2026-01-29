@@ -263,4 +263,4 @@ Want to build one? Pick from the list or add your own!
 
 ---
 
-*This integrations directory is part of [MARVIN](https://github.com/SterlingChin/marvin-template), the AI Chief of Staff template.*
+*This integrations directory is part of [MARVIN for OpenCode](https://github.com/dan-and/marvin-template-for-OpenCode), the AI Chief of Staff template. This project is based on the original [MARVIN template for Claude Code](https://github.com/SterlingChin/marvin-template) by Sterling Chin.*

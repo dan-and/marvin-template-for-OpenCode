@@ -54,9 +54,11 @@ Should show `opencode-ai/[version]`
 ### 2. Clone MARVIN Template
 
 ```bash
-git clone https://github.com/anomalyco/marvin-template.git
-cd marvin-template
+git clone https://github.com/dan-and/marvin-template-for-OpenCode.git
+cd marvin-template-for-OpenCode
 ```
+
+**Note**: This OpenCode edition is based on the original [MARVIN template for Claude Code](https://github.com/SterlingChin/marvin-template) by Sterling Chin.
 
 ### 3. Configure API Key
 
@@ -448,7 +450,9 @@ MARVIN will load your context, present a briefing, and help you have a productiv
 
 For issues, questions, or feature requests:
 
-- **GitHub Issues**: https://github.com/anomalyco/marvin-template/issues
+- **GitHub Issues**: https://github.com/dan-and/marvin-template-for-OpenCode/issues
+
+**Original Template**: This project is based on the original [MARVIN template for Claude Code](https://github.com/SterlingChin/marvin-template) by Sterling Chin.
 - **OpenCode Discord**: https://opencode.ai/discord
 - **Documentation**: See `MARVIN.md` for complete system reference
 

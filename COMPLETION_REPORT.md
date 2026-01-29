@@ -312,7 +312,9 @@ See MIGRATION_PLAN.md Phase 9+ for details.
 For issues or feedback:
 - GitHub: https://github.com/anomalyco/opencode
 - OpenCode Docs: https://opencode.ai/docs
-- This Template: [Repository URL]
+- This Template: https://github.com/dan-and/marvin-template-for-OpenCode
+
+**Original Template**: This project is based on the original [MARVIN template for Claude Code](https://github.com/SterlingChin/marvin-template) by Sterling Chin.
 
 ---
 
