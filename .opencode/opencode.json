@@ -1,17 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "models": {
-    "default": "zen/big-pickle",
-    "planning": "zen/big-pickle",
-    "execution": "zen/big-pickle"
-  },
   "agent": {
     "marvin": {
       "description": "Main MARVIN AI Chief of Staff with full capabilities",
       "mode": "primary",
-      "model": "zen/big-pickle",
+      "model": "opencode/big-pickle",
       "temperature": 0.3,
-      "prompt": "{file:./.opencode/prompts/marvin.txt}",
+      "prompt": "{file:./prompts/marvin.txt}",
       "tools": {
         "write": true,
         "edit": true,
@@ -33,21 +28,13 @@
     "planner": {
       "description": "Analysis and planning - read-only, no changes",
       "mode": "primary",
-      "model": "zen/big-pickle",
+      "model": "opencode/big-pickle",
       "temperature": 0.1,
-      "prompt": "{file:./.opencode/prompts/planner.txt}",
+      "prompt": "{file:./prompts/planner.txt}",
       "tools": {
         "write": false,
         "edit": false,
-        "bash": {
-          "grep": "allow",
-          "find": "allow",
-          "git log": "allow",
-          "git diff": "allow",
-          "ls": "allow",
-          "pwd": "allow",
-          "*": "deny"
-        },
+        "bash": true,
         "webfetch": true,
         "skill": true
       },
@@ -65,9 +52,9 @@
     "executor": {
       "description": "Execution specialist - focused implementation",
       "mode": "subagent",
-      "model": "zen/big-pickle",
+      "model": "opencode/big-pickle",
       "temperature": 0.3,
-      "prompt": "{file:./.opencode/prompts/executor.txt}",
+      "prompt": "{file:./prompts/executor.txt}",
       "tools": {
         "write": true,
         "edit": true,
@@ -87,19 +74,13 @@
     "briefing": {
       "description": "Session briefing specialist",
       "mode": "subagent",
-      "model": "zen/big-pickle",
+      "model": "opencode/big-pickle",
       "temperature": 0.1,
-      "prompt": "{file:./.opencode/prompts/briefing.txt}",
+      "prompt": "{file:./prompts/briefing.txt}",
       "tools": {
         "write": false,
         "edit": false,
-        "bash": {
-          "find": "allow",
-          "grep": "allow",
-          "cat": "allow",
-          "ls": "allow",
-          "*": "deny"
-        },
+        "bash": true,
         "webfetch": false,
         "skill": true
       }
@@ -109,32 +90,32 @@
     "marvin": {
       "description": "Start MARVIN session with briefing",
       "agent": "marvin",
-      "template": "{file:./.opencode/commands/marvin.md}"
+      "template": "{file:./commands/marvin.md}"
     },
     "end": {
       "description": "End session and save progress",
       "agent": "marvin",
-      "template": "{file:./.opencode/commands/end.md}"
+      "template": "{file:./commands/end.md}"
     },
     "update": {
       "description": "Quick checkpoint during session",
       "agent": "marvin",
-      "template": "{file:./.opencode/commands/update.md}"
+      "template": "{file:./commands/update.md}"
     },
     "report": {
       "description": "Generate weekly summary report",
       "agent": "marvin",
-      "template": "{file:./.opencode/commands/report.md}"
+      "template": "{file:./commands/report.md}"
     },
     "commit": {
       "description": "Review and commit git changes",
       "agent": "marvin",
-      "template": "{file:./.opencode/commands/commit.md}"
+      "template": "{file:./commands/commit.md}"
     },
     "sync": {
       "description": "Sync with MARVIN template updates",
       "agent": "marvin",
-      "template": "{file:./.opencode/commands/sync.md}"
+      "template": "{file:./commands/sync.md}"
     }
   },
   "permission": {
@@ -148,16 +129,6 @@
     "webfetch": "allow",
     "skill": {
       "*": "allow"
-    }
-  },
-  "OPTIONAL FEATURES (Phase 9+)": {
-    "tool": {
-    },
-    "mcp": {
-    },
-    "rule": {
-    },
-    "keybind": {
     }
   }
 }

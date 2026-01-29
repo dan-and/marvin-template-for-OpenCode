@@ -65,13 +65,6 @@ For detailed analysis, see **REFERENCE_ANALYSIS.md**
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-
-  "models": {
-    "default": "zen/big-pickle",
-    "planning": "zen/big-pickle",
-    "execution": "zen/big-pickle"
-  },
-
   "agent": {
     "marvin": {
       "description": "Main MARVIN AI Chief of Staff with full capabilities",
@@ -107,15 +100,7 @@ For detailed analysis, see **REFERENCE_ANALYSIS.md**
       "tools": {
         "write": false,
         "edit": false,
-        "bash": {
-          "grep": "allow",
-          "find": "allow",
-          "git log": "allow",
-          "git diff": "allow",
-          "ls": "allow",
-          "pwd": "allow",
-          "*": "deny"
-        },
+        "bash": true,
         "webfetch": true,
         "skill": true
       },
@@ -163,13 +148,7 @@ For detailed analysis, see **REFERENCE_ANALYSIS.md**
       "tools": {
         "write": false,
         "edit": false,
-        "bash": {
-          "find": "allow",
-          "grep": "allow",
-          "cat": "allow",
-          "ls": "allow",
-          "*": "deny"
-        },
+        "bash": true,
         "webfetch": false,
         "skill": true
       }
@@ -221,36 +200,7 @@ For detailed analysis, see **REFERENCE_ANALYSIS.md**
     "skill": {
       "*": "allow"
     }
-  },
-
-  // OPTIONAL FEATURES (Phase 9+)
-  // Uncomment to enable advanced features
-
-  // Custom Tools (TypeScript-based extensions)
-  // "tool": {
-  //   // Tools can be added here or in .opencode/tool/
-  // },
-
-  // MCP Servers (for users to add their own)
-  // "mcp": {
-  //   // "custom-server": {
-  //   //   "type": "remote",
-  //   //   "url": "https://your-mcp-server.com"
-  //   // }
-  // },
-
-  // Rules System (conditional triggering)
-  // "rule": {
-  //   // "auto-end-session": {
-  //   //   "condition": "time_after('17:00')",
-  //   //   "action": "suggest_end"
-  //   // }
-  // },
-
-  // Keybindings (user customization)
-  // "keybind": {
-  //   "switch_agent": "Tab"
-  // }
+  }
 }
 ```
 
@@ -649,6 +599,121 @@ Use this at the beginning of your day or when starting a new MARVIN session.
 - [ ] Commands can update current.md
 - [ ] Git tracking works for state files
 
+### 8.5 - Configuration Structure Changes (Post-Implementation)
+
+**Date**: January 29, 2026
+
+During implementation and testing, the following configuration structure changes were made to ensure compatibility with OpenCode's schema:
+
+#### 8.5.1 - Tools.bash Configuration Change
+
+**Issue**: OpenCode requires `tools.bash` to be a boolean (`true`/`false`), not an object with sub-command permissions.
+
+**Original Plan** (from section 8.1):
+```json
+"tools": {
+  "bash": {
+    "grep": "allow",
+    "find": "allow",
+    "git log": "allow",
+    "git diff": "allow",
+    "ls": "allow",
+    "pwd": "allow",
+    "*": "deny"
+  }
+}
+```
+
+**Actual Implementation**:
+```json
+"tools": {
+  "bash": true
+}
+```
+
+**Impact**:
+- The `tools.bash` field now uses boolean values for all agents
+- Command-specific restrictions are handled via `permission.bash` instead
+- This applies to `planner` and `briefing` agents (which previously had object structures)
+- `marvin` and `executor` agents already used boolean values
+
+**Rationale**:
+- OpenCode's schema validation requires `tools.bash` to be boolean
+- Permission granularity is maintained through the `permission.bash` section
+- This separation follows OpenCode's design: `tools` defines what's available, `permission` defines how it can be used
+
+**Documentation Update Needed**:
+- Update any examples showing `tools.bash` as an object
+- Clarify that command restrictions belong in `permission.bash`, not `tools.bash`
+
+#### 8.5.2 - Removal of "models" Top-Level Key
+
+**Issue**: OpenCode does not recognize a top-level `"models"` key in the configuration.
+
+**Original Plan** (from section 1.1):
+```json
+{
+  "models": {
+    "default": "zen/big-pickle",
+    "planning": "zen/big-pickle",
+    "execution": "zen/big-pickle"
+  },
+  "agent": { ... }
+}
+```
+
+**Actual Implementation**:
+- Removed the `"models"` key entirely
+- Model selection is done per-agent via `agent.{name}.model` field
+- Each agent specifies its model directly: `"model": "zen/big-pickle"`
+
+**Impact**:
+- No global model defaults
+- Each agent must specify its model explicitly
+- More explicit and clear configuration
+
+**Rationale**:
+- OpenCode's schema doesn't support top-level `models` key
+- Per-agent model specification is more flexible
+- Aligns with OpenCode's agent-centric configuration approach
+
+#### 8.5.3 - Removal of "OPTIONAL FEATURES (Phase 9+)" Section
+
+**Issue**: OpenCode does not recognize the `"OPTIONAL FEATURES (Phase 9+)"` key, causing validation errors.
+
+**Original Plan** (from section 1.1):
+```json
+{
+  "OPTIONAL FEATURES (Phase 9+)": {
+    "tool": {},
+    "mcp": {},
+    "rule": {},
+    "keybind": {}
+  }
+}
+```
+
+**Actual Implementation**:
+- Removed the entire `"OPTIONAL FEATURES (Phase 9+)"` section
+- These features are documented in the REFERENCE ANALYSIS UPDATE section (lines 18-55)
+- Future implementation will add these features directly to the config when needed
+
+**Impact**:
+- No placeholder sections in the config
+- Cleaner, more focused configuration file
+- Optional features documented separately in this migration plan
+
+**Rationale**:
+- OpenCode's strict schema validation rejects unrecognized keys
+- Placeholder sections serve no functional purpose
+- Better to document optional features separately and add them when actually implementing
+
+**Future Implementation**:
+When implementing Phase 9+ features:
+1. Add `tool`, `mcp`, `rule`, or `keybind` sections directly to `opencode.json`
+2. Follow OpenCode's official schema for these sections
+3. Reference this migration plan for context on why they were deferred
+
 ---
 
 ## PART 9: RISK MITIGATION
@@ -657,10 +722,11 @@ Use this at the beginning of your day or when starting a new MARVIN session.
 
 | Risk | Impact | Mitigation |
 |------|--------|-----------|
-| OpenCode not reading config | Critical | Test config file syntax early, reference docs |
+| OpenCode not reading config | Critical | Test config file syntax early, reference docs. See section 8.5 for schema validation issues |
+| Config schema validation errors | Critical | `tools.bash` must be boolean, not object. Remove unrecognized keys like `models` and `OPTIONAL FEATURES`. See section 8.5 |
 | Commands don't trigger correctly | High | Verify frontmatter format, test each command |
 | Skills not discoverable | Medium | Check SKILL.md filename case, validate YAML |
-| Permissions too restrictive | Medium | Test high-risk operations, adjust as needed |
+| Permissions too restrictive | Medium | Test high-risk operations, adjust as needed. Note: command restrictions go in `permission.bash`, not `tools.bash` |
 | State files not accessible | High | Verify bash permissions in agents |
 | Workflow breaks mid-session | High | Save state early and often in testing |
 
